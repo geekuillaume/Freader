@@ -1,4 +1,4 @@
-var config = require('./config.js');
+var config = require(__dirname + '/config.js');
 
 exports.createRoutes = function (app, database) {
 
@@ -6,7 +6,7 @@ exports.createRoutes = function (app, database) {
 	** User creation
 	*/
 
-	app.put("/api/user", function(req, res) {
+	app.post("/api/user", function(req, res) {
 
 		if (req.session.user)
 		{
@@ -21,7 +21,7 @@ exports.createRoutes = function (app, database) {
 			res.send(400, "Please provide a correct email and a correct password");
 			return false;
 		}
-		database.createUser(email, password, function (user, err) {
+		database.user.create(email, password, function (user, err) {
 			if (err)
 			{
 				console.log("[error] user %s already exist", email);
@@ -29,8 +29,8 @@ exports.createRoutes = function (app, database) {
 				return false;
 			}
 			console.log("[info ] Creating new user %s", email);
-			req.session.user = user;
-			res.send(200, "User created");
+			req.session.user = user.emitted.complete[0];
+			res.send("User created");
 		});
 	});
 
@@ -45,9 +45,9 @@ exports.createRoutes = function (app, database) {
 			return false;
 		}
 
-		database.deleteUser(req.session.user, function() {
+		database.user.delete(req.session.user, function() {
 			delete req.session.user;
-			res.send(200, "User deleted");
+			res.send("User deleted");
 		});
 	});
 
@@ -59,7 +59,7 @@ exports.createRoutes = function (app, database) {
 
 		if (req.session.user)
 		{
-			res.send(200, "Already connected");
+			res.send("Already connected");
 			return true;
 		}
 
@@ -70,7 +70,7 @@ exports.createRoutes = function (app, database) {
 			res.send(400, "Please provide a correct email and a correct password");
 			return false;
 		}
-		database.loginUser(email, password, function(user) {
+		database.user.login(email, password, function(user) {
 			if (!user)
 			{
 				console.log("[error] connection error for user %s", email);
@@ -79,7 +79,7 @@ exports.createRoutes = function (app, database) {
 			}
 			req.session.user = user;
 			console.log("[info ] user %s connected", email);
-			res.send(200, "Connected");
+			res.send("Connected");
 		});
 	});
 
@@ -94,7 +94,7 @@ exports.createRoutes = function (app, database) {
 			return false;
 		}
 		delete req.session.user;
-		res.send(200, "Logged out");
+		res.send("Logged out");
 	});
 
 };

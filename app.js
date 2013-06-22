@@ -1,5 +1,5 @@
-var config = require('./config.js');
-var database = require('./database.js');
+var config = require(__dirname + '/config.js');
+var database = require(__dirname + '/database/database.js');
 
 var express = require('express');
 var app = express();
@@ -19,6 +19,13 @@ app.use(express.session({secret: config.cookieSecret}));
 
 var user = require('./user.js');
 user.createRoutes(app, database);
+
+/*
+** Feeds Routes (creation, login, logout)
+*/
+
+var feeds = require('./feeds.js');
+feeds.createRoutes(app, database);
 
 
 database.connect(function () {
