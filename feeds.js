@@ -43,14 +43,9 @@ exports.createRoutes = function(app, database) {
 			res.send(401, "Loging required");
 			return false;
 		}
-		console.log(req.params.id);
 		database.feed.delete(req.session.user, req.params.id, function (err, nb) {
-			console.log(nb);
 			if (err)
-			{
-				console.log(err);
 				res.send(400, "No feed with this ID");
-			}
 			else
 				res.send("Feed deleted");
 			console.log("[info ] Feed %d deleted by user %s", req.params.id, req.session.user.email)
