@@ -1,0 +1,44 @@
+<!doctype html>
+<html ng-app="Freader">
+	<head>
+		<title>FReader</title>
+		<script type="text/javascript">connected = {{alreadyLogged}};</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+		<script src="webapp.js"></script>
+		<link rel="stylesheet" href="webapp.css">
+		<meta charset="utf-8">
+	</head>
+	<body ng-view>
+		<script type="text/ng-template" id="loginView">
+			<div class="container login-screen" id="loginView" ng-controller="loginCtrl">
+
+				<div class="login-icon">
+					<img src="images/icon.png" alt="Welcome to Freader">
+					<h4>Welcome to <small>Freader</small></h4>
+				</div>
+				<form ng-submit="action()" class="login-form" name="actionForm">
+					<p class="errorMsg">{{errorMsg}}</p>
+					<div class="control-group">
+						<input type="email" class="login-field" id="login-name" placeholder="Email" ng-model="email" required>
+						<label class="login-field-icon fui-user" for="login-name"></label>
+					</div>
+					<div class="control-group">
+						<input type="password" class="login-field" id="login-pass" placeholder="Password" ng-model="password" required>
+						<label class="login-field-icon fui-lock" for="login-pass"></label>
+					</div>
+					<input type="submit" value="{{text.action}}" ng-disabled="actionForm.$invalid" class="btn btn-primary btn-large btn-block">
+					<a ng-click="changeAction()" class="actionChange">{{text.changeAction}}</a>
+				</form>
+
+			</div>
+		</script>
+		<script type="text/ng-template" id="feedsView">
+			<div class="container">
+				<h2>Freader</h2>
+				<a class="disconnect btn btn-large btn-block btn-danger" ng-click="disconnect()">Disconnect</a>
+			</div>
+		</script>
+
+	</body>
+</html>

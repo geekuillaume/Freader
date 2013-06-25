@@ -12,20 +12,31 @@ var app = express();
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: config.cookieSecret}));
+app.use(express.static(__dirname + '/webapp'));
+app.use(app.router);
+
+
 
 /*
 ** User Routes (creation, login, logout)
 */
 
-var user = require('./user.js');
+var user = require(__dirname + '/user.js');
 user.createRoutes(app, database);
 
 /*
 ** Feeds Routes (creation, login, logout)
 */
 
-var feeds = require('./feeds.js');
+var feeds = require(__dirname + '/feeds.js');
 feeds.createRoutes(app, database);
+
+/*
+** Static files for web application
+*/
+
+var webapp = require(__dirname + '/webappServing.js');
+webapp.createRoutes(app, database);
 
 
 database.connect(function () {

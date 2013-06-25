@@ -55,7 +55,7 @@ exports.createRoutes = function (app, database) {
 	** Login
 	*/
 
-	app.post("/api/login", function (req, res) {
+	app.get("/api/login", function (req, res) {
 
 		if (req.session.user)
 		{
@@ -87,7 +87,7 @@ exports.createRoutes = function (app, database) {
 	** Logout
 	*/
 
-	app.post("/api/logout", function (req, res) {
+	app.delete("/api/login", function (req, res) {
 		if (!req.session.user)
 		{
 			res.send(401, "You are not connected");
