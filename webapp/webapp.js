@@ -73,4 +73,27 @@ function feedsCtrl($scope, $resource, $location) {
 		});
 	}
 
+	$scope.feeds = $resource('/api/feeds').query();
+
+	$scope.addFeed = function() {
+		var newFeed = $resource('/api/feed').save({url: $scope.newFeedUrl}, function () {
+			console.log("Feed added !");
+			delete $scope.addErrorText;
+			$scope.feeds.push(newFeed);
+		}, function (response) {
+			if (response.status == 400)
+				$scope.addErrorText = response.data;
+			else
+				$scope.addErrorText = "Cannot connect to server";
+			console.log("error adding feed", response);
+		});
+	}
+
+	$scope.deleteFeed = function(feed) {
+		$resource('/api/feed/' + feed._id).delete({}, function() {
+			var indexof = $scope.feeds.indexOf(feed);
+			$scope.feeds.splice(indexof, 1);
+		});
+	}
+
 }

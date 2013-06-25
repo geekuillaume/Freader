@@ -6,6 +6,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
 		<script src="webapp.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="webapp.css">
 		<meta charset="utf-8">
 	</head>
@@ -37,6 +38,27 @@
 			<div class="container">
 				<h2>Freader</h2>
 				<a class="disconnect btn btn-large btn-block btn-danger" ng-click="disconnect()">Disconnect</a>
+
+				<a class="btn btn-large btn-success" ng-click="showNewFeed = true">Add Feed</a>
+				<form class="feedAdd" ng-class="{active: showNewFeed}" ng-submit="addFeed()">
+					<p class="errorMsg">{{addErrorText}}</p>
+					<span ng-click="showNewFeed = false" class="closeButton">x</span>
+					<input type="url" ng-model="newFeedUrl" required placeholder="Feed URL">
+					<input type="submit" val="Add feed" class="btn btn-block btn-inverse">
+				</form>
+
+				<div class="feeds">
+				<div class="feed" ng-repeat="feed in feeds">
+					<p class="title">{{feed.name}}</p>
+					<p class="description">{{feed.description}}</p>
+					<span class="deleteButton" ng-click="feed.deletePopup = true">x</span>
+					<div class="overlay" ng-click="feed.deletePopup = false" ng-class="{active: feed.deletePopup}"></div>
+					<div class="deletePopup" ng-class="{active: feed.deletePopup}">
+						<p>Do you really want to delete this feed ?</p>
+						<a class="btn btn-danger btnDeletePopup" ng-click="deleteFeed(feed)">Yes</a><a class="btn btnDeletePopup" ng-click="feed.deletePopup = false">No</a>
+					</div>
+				</div>
+				</div>
 			</div>
 		</script>
 
