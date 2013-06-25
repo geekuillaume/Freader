@@ -27,7 +27,6 @@ exports.delete = function(user, callback) {
 
 exports.login = function(email, password, callback) {
 	User.findOne().where("email").equals(email).exec(function (err, user) {
-		console.log(user);
 		if (!user || password != user.password)
 			return callback(false);
 		return callback(user);

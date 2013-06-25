@@ -8,14 +8,13 @@ exports.createRoutes = function(app, database) {
 			res.send(401, "Loging required");
 			return false;
 		}
-		console.log("[info ] Getting feeds of user : %s", req.session.user.email);
 		database.feed.get(req.session.user, function (err, feeds) {
-			console.log(feeds);
 			res.send(feeds);
 		});
+		console.log("[info ] Getting feeds of user : %s", req.session.user.email);
 	});
 
-	app.post('/api/feeds', function (req, res) {
+	app.post('/api/feed', function (req, res) {
 		if (!req.session.user)
 		{
 			res.send(401, "Loging required");
@@ -29,15 +28,14 @@ exports.createRoutes = function(app, database) {
 		}
 		database.feed.add(req.session.user, url, function (err, feed) {
 			if (err == 2)
-				res.send("Feed already added");
-			else
-				res.send("Feed added");
+				return res.send("Feed already added");
+			res.send("Feed added");
 			req.session.user._feeds.push(feed._id);
 			console.log("[info ] Added feed (%s) to user : %s", url, req.session.user.email);
 		});
 	});
 
-	app.delete('/api/feeds/:id', function (req, res) {
+	app.delete('/api/feed/:id', function (req, res) {
 		if (!req.session.user)
 		{
 			res.send(401, "Loging required");
@@ -49,6 +47,19 @@ exports.createRoutes = function(app, database) {
 			else
 				res.send("Feed deleted");
 			console.log("[info ] Feed %d deleted by user %s", req.params.id, req.session.user.email)
+		});
+	});
+
+	app.get('/api/feed/:id', function (req, res) {
+		if (!req.session.user)
+		{
+			res.send(401, "Loging required");
+			return false;
+		}
+		database.feed.getOne(req.params.id, function (err, data) {
+			if (err)
+				return res.send(400, err.message);
+			res.send(data);
 		});
 	});
 

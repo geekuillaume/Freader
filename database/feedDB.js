@@ -1,11 +1,23 @@
+var config = require(__dirname + '/../config.js');
 var mongoose = require('mongoose');
 var User = require(__dirname + '/userDB.js');
+var Scrapper = require(__dirname + '/../scrapper.js');
 
 var feedSchema = mongoose.Schema({
-	name: { type: String, default: "Loading..." },
 	url: String,
 	_owners: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-	creationDate: { type: Date, default: Date.now }
+	creationDate: { type: Date, default: Date.now },
+	lastUpdate: { type: Date, default: 0 },
+	updateFrequence: Number,
+	name: { type: String, default: "Loading..." },
+	description: { type: String, default: "Loading..." },
+	link: { type: String, default: "Loading..." },
+	items: [{
+		title: String,
+		link: String,
+		description: String,
+		content: String
+	}]
 });
 
 var Feed = mongoose.model('Feed', feedSchema);
@@ -28,10 +40,11 @@ exports.add = function(user, url, callback) {
 		{
 			feed = new Feed({url: url, _owners: [user._id]});
 			feed.save(function(err) {
-				User.model.update({_id: user._id}, {$push: {_feeds: feed._id}}).exec(function (err) {
+				User.model.findByIdAndUpdate(user._id, {$push: {_feeds: feed._id}}).exec(function (err) {
 					callback(err, feed);
 				});
 			});
+			update(feed);
 		}
 		return true;
 	});
@@ -40,7 +53,7 @@ exports.add = function(user, url, callback) {
 exports.delete = function(user, feedID, callback) {
 	if (user._feeds.indexOf(feedID) == -1)
 		return callback(true);
-	Feed.findOne().where('_id').equals(feedID).exec(function (err, feed) {
+	Feed.findById(feedID).exec(function (err, feed) {
 		if (!feed || err)
 			return callback(err);
 		if (feed._owners.length == 1) // No more owners, removing feed from database
@@ -53,7 +66,54 @@ exports.delete = function(user, feedID, callback) {
 }
 
 exports.get = function(user, callback) {
-	User.model.findOne().where('_id').equals(user._id).populate('_feeds').exec(function (err, user) {
-		callback(err, user._feeds);
+	User.model.findById(user._id).populate('_feeds').exec(function (err, user) {
+		var total = user._feeds.length;
+		for (var i = user._feeds.length - 1; i >= 0; i--) {
+			update(user._feeds[i], function (err, feed) {
+				user._feeds[i] = feed;
+				total--;
+				if (total == 0)
+					callback(err, user._feeds);
+			});
+		};
+	});
+}
+
+exports.getOne = function (feedID, callback) {
+	Feed.findById(feedID).exec(function (err, feed) {
+		if (!feed)
+			return callback({message: "No such feed"}, null);
+		update(feed, callback);
+	});
+}
+
+update = function(feed, callback) {
+
+
+	if (feed.lastUpdate && Date.now() - Date.parse(feed.lastUpdate) < config.cacheTime)
+		return callback(false, feed);
+
+	console.log("[info ] Getting feed %s", feed.url);
+
+	Scrapper.scrap(feed, function (err, rss) {
+		if (err)
+			return callback({message: "Not a valid RSS feed"});
+		var items = [];
+
+		for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
+			items.push({
+				title: rss.rss.channel[0].item[i].title[0],
+				link: rss.rss.channel[0].item[i].guid[0]._,
+				description: rss.rss.channel[0].item[i].description[0]
+			})
+		};
+
+		Feed.findByIdAndUpdate(feed._id, { $set: {
+			lastUpdate: Date.now(),
+			name: rss.rss.channel[0].title,
+			description: rss.rss.channel[0].description,
+			link: rss.rss.channel[0].link,
+			items: items
+		}}, callback);
 	});
 }

@@ -16,7 +16,7 @@ exports.createRoutes = function (app, database) {
 
 		var email = req.param('email');
 		var password = req.param('password');
-		if (!email || !password || email.length < 3 || password.length < 3)
+		if (!email || !password || email.length < 3 || password.length < 3 || !email.match(config.emailRegex))
 		{
 			res.send(400, "Please provide a correct email and a correct password");
 			return false;
