@@ -28,8 +28,8 @@ exports.createRoutes = function(app, database) {
 		}
 		database.feed.add(req.session.user, url, function (err, feed) {
 			if (err == 2)
-				return res.send("Feed already added");
-			res.send("Feed added");
+				return res.send(400, "Feed already added");
+			res.send(feed);
 			req.session.user._feeds.push(feed._id);
 			console.log("[info ] Added feed (%s) to user : %s", url, req.session.user.email);
 		});

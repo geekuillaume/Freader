@@ -39,12 +39,31 @@ exports.add = function(user, url, callback) {
 		else // Create feed in database and reference to user
 		{
 			feed = new Feed({url: url, _owners: [user._id]});
-			feed.save(function(err) {
-				User.model.findByIdAndUpdate(user._id, {$push: {_feeds: feed._id}}).exec(function (err) {
-					callback(err, feed);
+			Scrapper.scrap(feed, function (err, rss) {
+				if (err)
+					callback({message: "Not a valid RSS Feed"});
+				var items = [];
+
+				for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
+					items.push({
+						title: rss.rss.channel[0].item[i].title[0],
+						link: rss.rss.channel[0].item[i].guid[0]._,
+						description: rss.rss.channel[0].item[i].description[0]
+					})
+				};
+
+				feed.lastUpdate = Date.now();
+				feed.name = rss.rss.channel[0].title;
+				feed.description = rss.rss.channel[0].description;
+				feed.link = rss.rss.channel[0].link;
+				feed.items = items;
+
+				feed.save(function(err) {
+					User.model.findByIdAndUpdate(user._id, {$push: {_feeds: feed._id}}).exec(function (err) {
+						callback(err, feed);
+					});
 				});
 			});
-			update(feed);
 		}
 		return true;
 	});
@@ -68,6 +87,8 @@ exports.delete = function(user, feedID, callback) {
 exports.get = function(user, callback) {
 	User.model.findById(user._id).populate('_feeds').exec(function (err, user) {
 		var total = user._feeds.length;
+		if (!total)
+			callback();
 		for (var i = user._feeds.length - 1; i >= 0; i--) {
 			update(user._feeds[i], function (err, feed) {
 				user._feeds[i] = feed;
@@ -86,6 +107,7 @@ exports.getOne = function (feedID, callback) {
 		update(feed, callback);
 	});
 }
+
 
 update = function(feed, callback) {
 
@@ -117,3 +139,5 @@ update = function(feed, callback) {
 		}}, callback);
 	});
 }
+
+exports.update = update;
