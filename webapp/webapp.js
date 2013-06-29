@@ -80,12 +80,15 @@ function feedsCtrl($scope, $resource, $location) {
 			console.log("Feed added !");
 			delete $scope.addErrorText;
 			$scope.feeds.push(newFeed);
+			$scope.showNewFeed = false;
+			$scope.newFeedUrl = "";
 		}, function (response) {
 			if (response.status == 400)
 				$scope.addErrorText = response.data;
 			else
 				$scope.addErrorText = "Cannot connect to server";
 		});
+		return true;
 	}
 
 	$scope.deleteFeed = function(feed) {

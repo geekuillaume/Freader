@@ -42,15 +42,15 @@
 				<header>
 					<h1>Freader</h1>
 					<div class="actions">
+						<form ng-submit="addFeed()" class="feedAddForm">
+							<input class="feedAddInput" type="url" ng-class="{active: showNewFeed}" ng-model="newFeedUrl" required placeholder="Feed URL">
+							<span class="addError" ng-class="{active: addErrorText && showNewFeed}">{{addErrorText}}</span>
+						</form
+						><span class="headerAction actionAdd" ng-class="{active: showNewFeed}" ng-click="(!showNewFeed || addFeed()) && (showNewFeed = true)">
+							<i class="icon-plus"></i>
+						</span
+						><span class="headerAction actionDisconnect" ng-click="disconnect()"><i class="icon-off"></i></span>
 						<div class="overlay" ng-click="showNewFeed = false" ng-class="{active: showNewFeed}"></div>
-						<div class="actionAdd" ng-click="showNewFeed = true" ng-class="{active: showNewFeed}">
-							<form ng-submit="addFeed()">
-								<input type="url" ng-model="newFeedUrl" required placeholder="Feed URL">
-							</form>
-							<span class="addError" ng-class="{active: addErrorText}">{{addErrorText}}</span>
-							<i class="icon-plus" ng-click="!showNewFeed || addFeed()"></i>
-						</div>
-						<div class="actionDisconnect" ng-click="disconnect()"><i class="icon-off"></i></div>
 					</div>
 				</header>
 
