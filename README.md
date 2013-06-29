@@ -9,9 +9,9 @@ Features
 --------
 
 * All your feeds in a clear (and flat) UI
+* All written with Node.js and Angular.js
 * User managment (creation, removing)
 * Feed caching (one hour by default)
-* All written with Node.js and Angular.js for a awesome speed
 
 Requirement
 -----------
@@ -38,8 +38,10 @@ TODO
 ----
 
 * Add organization on feeds with tabs / categories
-* Get back the favicon from the feed if any
+* Get back the favicon from the feed
 * Clean all CSS and removing Bootstrap / Flat UI to keep only what's used
+* Show the article directly in the application
+* Impove the design and UX in general
 
 About the creator
 -----------------
