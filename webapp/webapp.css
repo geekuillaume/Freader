@@ -44,40 +44,38 @@ header h1 {
   float: right;
   margin-top: 10px;
 }
-.actionCall {
-  display: inline-block;
-  margin-left: 10px;
+.actionAdd, .actionDisconnect {
+  padding: 20px;
+  display: inline;
+  position: relative;
+  cursor: pointer;
+}
+.actionAdd {
   background-color: #2ECC71;
-  padding: 10px;
 }
 .actionDisconnect {
   background-color: #E74C3C;
 }
-.actionCall.active {
+.actionAdd.active {
   z-index: 50;
 }
-.actionCall input {
+.actionAdd input {
   width: 0;
   transition: 0.5s all ease;
   border: 0;
   padding: 10px 0;
   border-radius: 0;
 }
-.actionCall.active input {
+.actionAdd.active i {
+  margin-left: 10px;
+}
+.actionAdd.active input {
   width: 300px;
   padding: 10px;
+  margin-left: -10px;
 }
-.feedAdd {
-  background-color: #16A085;
-  height: 0px;
-  transition: 0.5s ease all;
-  overflow: hidden;
-  padding: 0;
-  position: relative;
-}
-.feedAdd.active {
-  height: 120px;
-  padding: 20px 30px;
+.actionAdd form {
+  display: inline;
 }
 .closeButton {
   opacity: 0.6;
@@ -95,10 +93,11 @@ header h1 {
   position: relative;
   padding: 8px;
   margin-bottom: 15px;
+  padding-top: 23px;
 }
 .feed + .feed {
-	padding-top: 23px;
-	border-top: 1px solid rgba(255,255,255,.5);
+  padding-top: 23px;
+  border-top: 1px solid rgba(255,255,255,.5);
 }
 .description {
   color: #ECF0F1;
@@ -106,18 +105,18 @@ header h1 {
   margin-bottom: 0;
 }
 .deleteButton, .showArticlesButton {
-	position: absolute;
-	right: 16px;
-	top: 10px;
-	opacity: 0.5;
-	transition: 0.2s ease all;
-	cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 22px;
+  opacity: 0.5;
+  transition: 0.2s ease all;
+  cursor: pointer;
 }
 .deleteButton:hover, .showArticlesButton:hover {
   opacity: 0.8
 }
 .showArticlesButton {
-	top: 30px;
+  top: 48px;
 }
 .deletePopup {
   border-radius: 5px;
@@ -151,38 +150,38 @@ header h1 {
   z-index: 49;
 }
 .articles {
-	height: 0;
-	transition: 0.5s ease height;
-	overflow: hidden;
-	padding-left: 30px;
-	position: relative;
+  height: 0;
+  transition: 0.5s ease height;
+  overflow: hidden;
+  padding-left: 30px;
+  position: relative;
 }
 .articles.active {
-	height: auto;
-	margin-top: 10px;
-	padding-top: 10px;
+  height: auto;
+  margin-top: 10px;
+  padding-top: 10px;
 }
 .articles.active:after {
-	position: absolute;
-	content: "";
-	background-color: rgba(255,255,255,.5);
-	height: 100%;
-	width: 1px;
-	left: 15px;
-	top: -17px;
+  position: absolute;
+  content: "";
+  background-color: rgba(255,255,255,.5);
+  height: 100%;
+  width: 1px;
+  left: 15px;
+  top: -17px;
 }
 .article {
-	position: relative;
+  position: relative;
 }
 .article:after {
-	position: absolute;
-	content: "";
-	background-color: rgba(255,255,255,.5);
-	height: 1px;
-	width: 10px;
-	left: -14px;
-	top: 50%;
+  position: absolute;
+  content: "";
+  background-color: rgba(255,255,255,.5);
+  height: 1px;
+  width: 10px;
+  left: -14px;
+  top: 50%;
 }
 .article a {
-	color: white;
+  color: white;
 }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="Freader">
 	<head>
-		<title>FReader</title>
+		<title>Freader</title>
 		<script type="text/javascript">connected = {{alreadyLogged}};</script> <!-- Actual connection state directly in the head, so we don't have to get it with an AJAX request -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
@@ -35,17 +35,21 @@
 
 			</div>
 		</script>
+
+
 		<script type="text/ng-template" id="feedsView">
 			<div class="container">
 				<header>
 					<h1>Freader</h1>
 					<div class="actions">
 						<div class="overlay" ng-click="showNewFeed = false" ng-class="{active: showNewFeed}"></div>
-						<div class="actionCall" ng-click="showNewFeed = true" ng-class="{active: showNewFeed}">
-							<input type="url" ng-model="newFeedUrl" required placeholder="Feed URL">
+						<div class="actionAdd" ng-click="showNewFeed = true" ng-class="{active: showNewFeed}">
+							<form ng-submit="addFeed()">
+								<input type="url" ng-model="newFeedUrl" required placeholder="Feed URL">
+							</form>
 							<i class="icon-plus"></i>
 						</div>
-						<div class="actionCall actionDisconnect" ng-click="disconnect()"><i class="icon-off"></i></div>
+						<div class="actionDisconnect" ng-click="disconnect()"><i class="icon-off"></i></div>
 					</div>
 				</header>
 
