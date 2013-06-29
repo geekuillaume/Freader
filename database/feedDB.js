@@ -41,22 +41,11 @@ exports.add = function(user, url, callback) {
 			feed = new Feed({url: url, _owners: [user._id]});
 			Scrapper.scrap(feed, function (err, rss) {
 				if (err)
-					callback({message: "Not a valid RSS Feed"});
-				var items = [];
+					return callback(err);
 
-				for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
-					items.push({
-						title: rss.rss.channel[0].item[i].title[0],
-						link: rss.rss.channel[0].item[i].guid[0]._,
-						description: rss.rss.channel[0].item[i].description[0]
-					})
-				};
+				for(var k in rss) feed[k]=rss[k];
 
 				feed.lastUpdate = Date.now();
-				feed.name = rss.rss.channel[0].title;
-				feed.description = rss.rss.channel[0].description;
-				feed.link = rss.rss.channel[0].link;
-				feed.items = items;
 
 				feed.save(function(err) {
 					User.model.findByIdAndUpdate(user._id, {$push: {_feeds: feed._id}}).exec(function (err) {
@@ -120,23 +109,10 @@ update = function(feed, callback) {
 	Scrapper.scrap(feed, function (err, rss) {
 		if (err)
 			return callback({message: "Not a valid RSS feed"});
-		var items = [];
 
-		for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
-			items.push({
-				title: rss.rss.channel[0].item[i].title[0],
-				link: rss.rss.channel[0].item[i].guid[0]._,
-				description: rss.rss.channel[0].item[i].description[0]
-			})
-		};
+		rss.lastUpdate = Date.now();
 
-		Feed.findByIdAndUpdate(feed._id, { $set: {
-			lastUpdate: Date.now(),
-			name: rss.rss.channel[0].title,
-			description: rss.rss.channel[0].description,
-			link: rss.rss.channel[0].link,
-			items: items
-		}}, callback);
+		Feed.findByIdAndUpdate(feed._id, {$set: rss}, callback);
 	});
 }
 
