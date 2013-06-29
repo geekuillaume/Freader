@@ -38,6 +38,7 @@ header {
 }
 header h1 {
   display: inline-block;
+  text-shadow: 0 2px 0 rgba(0,0,0,.5);
 }
 .actions {
   display: inline;
@@ -98,6 +99,9 @@ header h1 {
 .feed + .feed {
   padding-top: 23px;
   border-top: 1px solid rgba(255,255,255,.5);
+}
+.title {
+  text-shadow: 0 1px 0 rgba(0,0,0,.5);
 }
 .description {
   color: #ECF0F1;
@@ -184,4 +188,19 @@ header h1 {
 }
 .article a {
   color: white;
+}
+.addError {
+    color: #E74C3C;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #F39C12;
+    padding: 5px 0;
+    opacity: 0;
+    transition: 0.5s ease all;
+    width: 100%;
+    text-align: center;
+}
+.actionAdd.active .addError.active {
+    opacity: 1;
 }

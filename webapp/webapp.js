@@ -85,7 +85,6 @@ function feedsCtrl($scope, $resource, $location) {
 				$scope.addErrorText = response.data;
 			else
 				$scope.addErrorText = "Cannot connect to server";
-			console.log("error adding feed", response);
 		});
 	}
 
