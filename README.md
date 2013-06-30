@@ -5,6 +5,9 @@ Now that Google Reader is over, why not use an open source Feed Reader !
 Freader provide you a simple page with all your feeds and the last item in them.
 You cannot read articles inside the application for now but it's on the TODO list !
 
+You can see it in action in just a little Heroku app [here](http://freader-rss.herokuapp.com/) !
+Account creation take about 10 seconds, try it !
+
 Features
 --------
 
