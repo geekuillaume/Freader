@@ -49,5 +49,5 @@ TODO
 About the creator
 -----------------
 
-I'm [Guillaume Besson](http://besson.co/) (AKA Geekuillaume), a young and passionated French developper.
+I'm [Guillaume Besson](http://besson.co/) (AKA Geekuillaume), a young and passionate French developper.
 You can contact me on [Twitter](http://twitter.com/geekuillaume) or by [email](guillaume@besson.com).
