@@ -50,4 +50,4 @@ About the creator
 -----------------
 
 I'm [Guillaume Besson](http://besson.co/) (AKA Geekuillaume), a young and passionate French developer.
-You can contact me on [Twitter](http://twitter.com/geekuillaume) or by [email](guillaume@besson.com).
+You can contact me on [Twitter](http://twitter.com/geekuillaume) or by [email](mailto:guillaume@besson.com).
