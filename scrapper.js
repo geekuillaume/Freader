@@ -23,21 +23,25 @@ exports.scrap = function (feed, callback) {
 					return callback({message: "Not a valid RSS feed"});
 				var items = [];
 
-				for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
-					items.push({
-						title: rss.rss.channel[0].item[i].title[0],
-						link: rss.rss.channel[0].item[i].guid[0]._,
-						description: rss.rss.channel[0].item[i].description[0]
-					})
-				};
+				try {
+					for (var i = 0; i < config.maxItems && i < rss.rss.channel[0].item.length - 1; i++) {
+						items.push({
+							title: rss.rss.channel[0].item[i].title[0],
+							link: rss.rss.channel[0].item[i].guid[0]._,
+							description: rss.rss.channel[0].item[i].description[0]
+						})
+					};
 
-				var feed = {
-					name: rss.rss.channel[0].title,
-					description: rss.rss.channel[0].description,
-					link: rss.rss.channel[0].link,
-					items: items
-				};
-
+					var feed = {
+						name: rss.rss.channel[0].title,
+						description: rss.rss.channel[0].description,
+						link: rss.rss.channel[0].link,
+						items: items
+					};
+				}
+				catch (e) { // If not all the fiels are inside the feed
+					return callback({message: "Not a valid RSS feed"});
+				}
 				callback(err, feed);
 			});
 
