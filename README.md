@@ -26,6 +26,7 @@ Installation
 ------------
 
 * Clone this repo
+* Install dependencies with 'npm install'
 * Start your MongoDB server (modify the address if you need to in the config file)
 * Start the server with 'npm start'
 * You can now create a user and start adding feeds by connecting to localhost:3000 (you can change the port inside the config file)
