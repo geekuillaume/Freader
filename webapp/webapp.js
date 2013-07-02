@@ -7,8 +7,8 @@ angular.module('backend', ['ngResource']).
 angular.module('Freader', ['backend'])
 	.config(function ($routeProvider) {
 		$routeProvider.
-			when("/", {controller: loginCtrl, template: document.getElementById('loginView').text}).
-			when("/feeds", {controller: feedsCtrl, template: document.getElementById('feedsView').text}).
+			when("/", {controller: loginCtrl, templateUrl: 'partials/loginView.html'}).
+			when("/feeds", {controller: feedsCtrl, templateUrl: 'partials/feedsView.html'}).
 			otherwise({redirectTo:'/'});
 	});
 
