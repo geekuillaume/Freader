@@ -76,17 +76,20 @@ function feedsCtrl($scope, $resource, $location) {
 	$scope.feeds = $resource('/api/feeds').query();
 
 	$scope.addFeed = function() {
+		$scope.addFeedLoading = true;
 		var newFeed = $resource('/api/feed').save({url: $scope.newFeedUrl}, function () {
 			console.log("Feed added !");
 			delete $scope.addErrorText;
 			$scope.feeds.push(newFeed);
 			$scope.showNewFeed = false;
 			$scope.newFeedUrl = "";
+			$scope.addFeedLoading = false;
 		}, function (response) {
 			if (response.status == 400)
 				$scope.addErrorText = response.data;
 			else
 				$scope.addErrorText = "Cannot connect to server";
+			$scope.addFeedLoading = false;
 		});
 		return true;
 	}

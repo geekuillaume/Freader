@@ -47,7 +47,7 @@
 							<span class="addError" ng-class="{active: addErrorText && showNewFeed}">{{addErrorText}}</span>
 						</form
 						><span class="headerAction actionAdd" ng-class="{active: showNewFeed}" ng-click="(!showNewFeed || addFeed()) && (showNewFeed = true)">
-							<i class="icon-plus"></i>
+							<i class="icon-plus" ng-class="{'icon-spin': addFeedLoading}"></i>
 						</span
 						><span class="headerAction actionDisconnect" ng-click="disconnect()"><i class="icon-off"></i></span>
 						<div class="overlay" ng-click="showNewFeed = false" ng-class="{active: showNewFeed}"></div>
