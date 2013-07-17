@@ -47,6 +47,8 @@ TODO
 * Show the article directly in the application
 * Improve the design and UX in general
 * Implement 'Forgot Password?' feature
+* Keep track of the current state of articles : to reed / reeded
+* Add a view with every articles of every feeds
 
 About the creator
 -----------------
