@@ -59,8 +59,9 @@ exports.add = function(user, url, callback) {
 }
 
 exports.delete = function(user, feedID, callback) {
-	if (user._feeds.indexOf(feedID) == -1)
-		return callback(true);
+	//Commented the following 2 lines to enable deleting of feeds in the same user session
+	//if (user._feeds.indexOf(feedID) == -1)
+	//	return callback(true);
 	Feed.findById(feedID).exec(function (err, feed) {
 		if (!feed || err)
 			return callback(err);
