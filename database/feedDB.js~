@@ -16,7 +16,8 @@ var feedSchema = mongoose.Schema({
 		title: String,
 		link: String,
 		description: String,
-		content: String
+		content: String,
+		feeddate:Date
 	}]
 });
 
@@ -59,7 +60,7 @@ exports.add = function(user, url, callback) {
 }
 
 exports.delete = function(user, feedID, callback) {
-	//Commented the following 2 lines to enable deleting of feeds in the same user session
+	//Commented the following 2 lines to enable deleting of feeds in the current user session
 	//if (user._feeds.indexOf(feedID) == -1)
 	//	return callback(true);
 	Feed.findById(feedID).exec(function (err, feed) {
